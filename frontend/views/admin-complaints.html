@@ -1,0 +1,66 @@
+<!-- ── Admin: Manage All Complaints ── -->
+<div class="sc-dashboard">
+  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h1 class="sc-page-title">📋 Manage Complaints</h1>
+      <p class="sc-page-sub">Review, update and resolve citizen complaints</p>
+    </div>
+    <a href="#/admin" class="btn sc-btn-outline"><i class="bi bi-arrow-left me-1"></i>Admin Panel</a>
+  </div>
+
+  <!-- Filter tabs -->
+  <div class="d-flex gap-2 mb-4 flex-wrap">
+    <button class="btn-sc-sm" ng-class="filter==='all'?'btn-sc-info':'btn-sc-resolve'" ng-click="filter='all'">All</button>
+    <button class="btn-sc-sm" ng-class="filter==='pending'?'btn-sc-info':'btn-sc-resolve'" ng-click="filter='pending'">Pending</button>
+    <button class="btn-sc-sm" ng-class="filter==='inprogress'?'btn-sc-info':'btn-sc-resolve'" ng-click="filter='inprogress'">In Progress</button>
+    <button class="btn-sc-sm" ng-class="filter==='resolved'?'btn-sc-info':'btn-sc-resolve'" ng-click="filter='resolved'">Resolved</button>
+  </div>
+
+  <div class="sc-spinner" ng-if="loading">Loading complaints...</div>
+
+  <div class="sc-empty" ng-if="!loading && filteredComplaints().length === 0">
+    <i class="bi bi-inbox"></i><p>No complaints in this category.</p>
+  </div>
+
+  <div class="sc-card" ng-if="!loading && filteredComplaints().length > 0">
+    <div class="table-responsive">
+      <table class="sc-table">
+        <thead>
+          <tr>
+            <th>Citizen</th><th>Title</th><th>Category</th><th>Image</th><th>Date</th><th>Status</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="c in filteredComplaints()">
+            <td style="color:var(--text-muted);white-space:nowrap">{{c.userName}}</td>
+            <td>
+              <div style="font-weight:600;font-size:0.85rem">{{c.title}}</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">{{c.description | limitTo:60}}...</div>
+              <div ng-if="c.adminNote" style="font-size:0.72rem;color:var(--green);margin-top:2px">
+                <i class="bi bi-chat-dots-fill"></i> {{c.adminNote}}
+              </div>
+            </td>
+            <td><span style="color:var(--text-muted);font-size:0.8rem">{{c.category}}</span></td>
+            <td>
+              <a ng-if="c.imageUrl" ng-href="{{c.imageUrl}}" target="_blank">
+                <img ng-src="{{c.imageUrl}}" style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--border)" />
+              </a>
+              <span ng-if="!c.imageUrl" style="color:var(--text-dim);font-size:0.75rem">—</span>
+            </td>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);white-space:nowrap">{{formatDate(c.createdAt)}}</td>
+            <td><span class="sc-badge" ng-class="statusClass(c.status)">{{c.status}}</span></td>
+            <td>
+              <div class="d-flex gap-1 flex-wrap">
+                <button class="btn-sc-sm btn-sc-info" ng-click="updateStatus(c,'In Progress')"
+                        ng-if="c.status==='Pending'">In Progress</button>
+                <button class="btn-sc-sm btn-sc-resolve" ng-click="updateStatus(c,'Resolved')"
+                        ng-if="c.status!=='Resolved'">Resolve</button>
+                <button class="btn-sc-sm btn-sc-delete" ng-click="deleteComplaint(c._id)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

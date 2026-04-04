@@ -1,0 +1,42 @@
+<!-- ── Emergency Help Section ── -->
+<div class="sc-dashboard">
+  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h1 class="sc-page-title">🚨 Emergency Contacts</h1>
+      <p class="sc-page-sub">One-tap access to emergency services. Stay safe.</p>
+    </div>
+    <a href="#/dashboard" class="btn sc-btn-outline"><i class="bi bi-arrow-left me-1"></i>Dashboard</a>
+  </div>
+
+  <!-- Emergency Banner -->
+  <div class="sc-alert sc-alert-error mb-4" style="font-size:0.9rem;padding:1rem">
+    <i class="bi bi-exclamation-octagon-fill" style="font-size:1.2rem"></i>
+    <strong>In case of immediate danger, call the relevant number below or dial 112 (National Emergency).</strong>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-6 col-lg-4" ng-repeat="c in contacts">
+      <div class="emergency-card">
+        <span class="emergency-icon">{{c.icon}}</span>
+        <h5>{{c.name}}</h5>
+        <span class="emergency-num {{c.cls}}">{{c.number}}</span>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem">{{c.desc}}</div>
+        <a href="tel:{{c.number}}" class="btn-emergency-call">
+          <i class="bi bi-telephone-fill"></i> Call {{c.number}}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- National Emergency -->
+  <div class="sc-card mt-4" style="border-color:rgba(248,81,73,0.4);background:rgba(248,81,73,0.05)">
+    <div class="text-center py-2">
+      <div style="font-size:1rem;color:var(--text-muted);margin-bottom:0.5rem">National Emergency Helpline</div>
+      <div style="font-family:var(--font-mono);font-size:3rem;font-weight:800;color:var(--red);line-height:1">112</div>
+      <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem">Available 24/7 across India</div>
+      <a href="tel:112" class="btn sc-btn-danger mt-3 px-4">
+        <i class="bi bi-telephone-fill me-2"></i>Call 112 Now
+      </a>
+    </div>
+  </div>
+</div>

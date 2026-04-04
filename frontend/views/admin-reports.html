@@ -1,0 +1,49 @@
+<!-- ── Admin: Cleanliness Reports ── -->
+<div class="sc-dashboard">
+  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h1 class="sc-page-title">🚮 Cleanliness Reports</h1>
+      <p class="sc-page-sub">Garbage and sanitation issues reported by citizens</p>
+    </div>
+    <a href="#/admin" class="btn sc-btn-outline"><i class="bi bi-arrow-left me-1"></i>Admin Panel</a>
+  </div>
+
+  <div class="sc-spinner" ng-if="loading">Loading reports...</div>
+
+  <div class="sc-empty" ng-if="!loading && reports.length === 0">
+    <i class="bi bi-trash3"></i><p>No reports filed yet.</p>
+  </div>
+
+  <div class="sc-card" ng-if="!loading && reports.length > 0">
+    <div class="table-responsive">
+      <table class="sc-table">
+        <thead>
+          <tr><th>Citizen</th><th>Category</th><th>Location</th><th>Description</th><th>Image</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="r in reports">
+            <td style="color:var(--text-muted);white-space:nowrap">{{r.userName}}</td>
+            <td style="font-size:0.82rem;color:var(--cyan)">{{r.category}}</td>
+            <td style="font-size:0.82rem">{{r.location}}</td>
+            <td style="font-size:0.8rem;color:var(--text-muted)">{{r.description | limitTo:60}}...</td>
+            <td>
+              <a ng-if="r.imageUrl" ng-href="{{r.imageUrl}}" target="_blank">
+                <img ng-src="{{r.imageUrl}}" style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--border)" />
+              </a>
+              <span ng-if="!r.imageUrl" style="color:var(--text-dim)">—</span>
+            </td>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);white-space:nowrap">{{formatDate(r.createdAt)}}</td>
+            <td><span class="sc-badge" ng-class="statusClass(r.status)">{{r.status}}</span></td>
+            <td>
+              <div class="d-flex gap-1 flex-wrap">
+                <button class="btn-sc-sm btn-sc-info" ng-click="updateStatus(r,'In Progress')" ng-if="r.status==='Pending'">Progress</button>
+                <button class="btn-sc-sm btn-sc-resolve" ng-click="updateStatus(r,'Resolved')" ng-if="r.status!=='Resolved'">Resolve</button>
+                <button class="btn-sc-sm btn-sc-delete" ng-click="deleteReport(r._id)"><i class="bi bi-trash3"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

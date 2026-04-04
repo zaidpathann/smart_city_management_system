@@ -1,0 +1,51 @@
+<!-- ── Admin: Citizen Feedback ── -->
+<div class="sc-dashboard">
+  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h1 class="sc-page-title">💬 Citizen Feedback</h1>
+      <p class="sc-page-sub">Suggestions and feedback submitted by citizens</p>
+    </div>
+    <a href="#/admin" class="btn sc-btn-outline"><i class="bi bi-arrow-left me-1"></i>Admin Panel</a>
+  </div>
+
+  <div class="sc-spinner" ng-if="loading">Loading feedback...</div>
+
+  <div class="sc-empty" ng-if="!loading && feedbacks.length === 0">
+    <i class="bi bi-chat-heart"></i><p>No feedback received yet.</p>
+  </div>
+
+  <div class="sc-card" ng-if="!loading && feedbacks.length > 0">
+    <div class="table-responsive">
+      <table class="sc-table">
+        <thead>
+          <tr><th>Citizen</th><th>Subject</th><th>Message</th><th>Rating</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="f in feedbacks" ng-style="{'opacity': f.isRead ? 0.7 : 1}">
+            <td style="color:var(--text-muted);white-space:nowrap">{{f.userName}}</td>
+            <td style="font-weight:600;font-size:0.85rem">{{f.subject}}</td>
+            <td style="font-size:0.82rem;color:var(--text-muted)">{{f.message | limitTo:80}}{{f.message.length>80?'...':''}}</td>
+            <td>
+              <span class="star-rating">
+                <span ng-repeat="s in stars(f.rating)">★</span>
+              </span>
+              <span style="font-size:0.75rem;color:var(--text-dim)"> {{f.rating}}/5</span>
+            </td>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);white-space:nowrap">{{formatDate(f.createdAt)}}</td>
+            <td>
+              <span class="sc-badge" ng-class="f.isRead ? 'badge-resolved' : 'badge-pending'">
+                {{f.isRead ? 'Read' : 'Unread'}}
+              </span>
+            </td>
+            <td>
+              <div class="d-flex gap-1">
+                <button class="btn-sc-sm btn-sc-info" ng-click="markRead(f)" ng-if="!f.isRead">Mark Read</button>
+                <button class="btn-sc-sm btn-sc-delete" ng-click="deleteFeedback(f._id)"><i class="bi bi-trash3"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,108 @@
+<!-- ── Admin Dashboard ── -->
+<div class="sc-dashboard">
+
+  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h1 class="sc-page-title">🛡️ Admin Control Panel</h1>
+      <p class="sc-page-sub">City-wide overview and management hub</p>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon-wrap stat-icon-cyan"><i class="bi bi-chat-left-text" style="color:var(--cyan)"></i></div>
+        <div><div class="stat-val">{{stats.total}}</div><div class="stat-label">Total Complaints</div></div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon-wrap stat-icon-yellow"><i class="bi bi-clock" style="color:var(--yellow)"></i></div>
+        <div><div class="stat-val">{{stats.pending}}</div><div class="stat-label">Pending</div></div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon-wrap" style="background:rgba(163,113,247,0.12)"><i class="bi bi-arrow-repeat" style="color:var(--purple)"></i></div>
+        <div><div class="stat-val">{{stats.inProgress}}</div><div class="stat-label">In Progress</div></div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon-wrap stat-icon-green"><i class="bi bi-check-circle" style="color:var(--green)"></i></div>
+        <div><div class="stat-val">{{stats.resolved}}</div><div class="stat-label">Resolved</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Nav Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4 col-sm-6">
+      <a href="#/admin/complaints" style="text-decoration:none">
+        <div class="feature-card"><span class="feature-icon">📋</span><h5>Manage Complaints</h5><p>View, update status, and resolve citizen complaints.</p></div>
+      </a>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <a href="#/admin/announcements" style="text-decoration:none">
+        <div class="feature-card"><span class="feature-icon">📢</span><h5>Announcements</h5><p>Post city-wide announcements and alerts to citizens.</p></div>
+      </a>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <a href="#/admin/parking" style="text-decoration:none">
+        <div class="feature-card"><span class="feature-icon">🅿️</span><h5>Parking Management</h5><p>Add and update parking locations and slot availability.</p></div>
+      </a>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <a href="#/admin/feedback" style="text-decoration:none">
+        <div class="feature-card"><span class="feature-icon">💬</span><h5>Citizen Feedback</h5><p>Read and manage feedback and suggestions from citizens.</p></div>
+      </a>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <a href="#/admin/reports" style="text-decoration:none">
+        <div class="feature-card"><span class="feature-icon">🚮</span><h5>Cleanliness Reports</h5><p>Track garbage and sanitation reports filed by citizens.</p></div>
+      </a>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <a href="#/admin/services" style="text-decoration:none">
+        <div class="feature-card"><span class="feature-icon">🔧</span><h5>Service Requests</h5><p>Manage utility service requests — water, electricity, etc.</p></div>
+      </a>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <a href="#/admin/users" style="text-decoration:none">
+        <div class="feature-card"><span class="feature-icon">👥</span><h5>User Management</h5><p>View all registered citizens and admin accounts.</p></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Recent Complaints Table -->
+  <div class="sc-card">
+    <div class="sc-card-header">
+      <h3 class="sc-card-title"><i class="bi bi-list-ul" style="color:var(--cyan)"></i> Recent Complaints</h3>
+      <a href="#/admin/complaints" class="btn-sc-sm btn-sc-info">View All</a>
+    </div>
+    <div class="sc-spinner" ng-if="loading">Loading...</div>
+    <div class="table-responsive" ng-if="!loading">
+      <table class="sc-table">
+        <thead>
+          <tr>
+            <th>Citizen</th><th>Title</th><th>Category</th><th>Date</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-if="recentComplaints.length === 0">
+            <td colspan="5" class="text-center" style="color:var(--text-dim);padding:2rem">No complaints yet</td>
+          </tr>
+          <tr ng-repeat="c in recentComplaints">
+            <td style="color:var(--text-muted)">{{c.userName}}</td>
+            <td>{{c.title | limitTo:40}}{{c.title.length > 40 ? '...' : ''}}</td>
+            <td><span style="color:var(--text-muted);font-size:0.8rem">{{c.category}}</span></td>
+            <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-dim)">{{formatDate(c.createdAt)}}</td>
+            <td><span class="sc-badge" ng-class="statusClass(c.status)">{{c.status}}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

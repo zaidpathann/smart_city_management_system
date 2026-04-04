@@ -1,0 +1,54 @@
+<!-- ── Smart Parking (Citizen View) ── -->
+<div class="sc-dashboard">
+  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h1 class="sc-page-title">🅿️ Smart Parking</h1>
+      <p class="sc-page-sub">Live parking slot availability across the city</p>
+    </div>
+    <a href="#/dashboard" class="btn sc-btn-outline"><i class="bi bi-arrow-left me-1"></i>Dashboard</a>
+  </div>
+
+  <div class="sc-alert sc-alert-error" ng-if="error"><i class="bi bi-exclamation-triangle-fill"></i> {{error}}</div>
+  <div class="sc-spinner" ng-if="loading">Loading parking data...</div>
+
+  <div class="sc-empty" ng-if="!loading && parkings.length === 0">
+    <i class="bi bi-p-square"></i>
+    <p>No parking locations added yet. Check back soon.</p>
+  </div>
+
+  <div class="row g-3" ng-if="!loading && parkings.length > 0">
+    <div class="col-md-6 col-lg-4" ng-repeat="p in parkings">
+      <div class="parking-card">
+        <div class="d-flex justify-content-between align-items-start mb-1">
+          <div class="parking-name">{{p.name}}</div>
+          <span class="sc-badge" ng-class="statusClass(p.status)">{{p.status}}</span>
+        </div>
+        <div class="parking-address"><i class="bi bi-geo-alt me-1"></i>{{p.address}}</div>
+
+        <div class="parking-slots">
+          <span class="available">{{p.availableSlots}}</span>
+          <span class="total"> / {{p.totalSlots}} slots free</span>
+        </div>
+
+        <div class="parking-bar">
+          <div class="parking-bar-fill"
+               ng-style="{width: fillPercent(p) + '%', background: barColor(p)}"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--text-dim)">
+          <span>{{fillPercent(p)}}% occupied</span>
+          <span ng-if="p.fee">Fee: {{p.fee}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="sc-card mt-4" style="max-width:400px" ng-if="!loading && parkings.length > 0">
+    <div class="sc-card-header"><h3 class="sc-card-title"><i class="bi bi-info-circle" style="color:var(--cyan)"></i> Legend</h3></div>
+    <div class="d-flex gap-3 flex-wrap">
+      <div><span class="sc-badge badge-available">Available</span> <small style="color:var(--text-muted)">Slots open</small></div>
+      <div><span class="sc-badge badge-full">Full</span> <small style="color:var(--text-muted)">No space</small></div>
+      <div><span class="sc-badge badge-closed">Closed</span> <small style="color:var(--text-muted)">Not operating</small></div>
+    </div>
+  </div>
+</div>

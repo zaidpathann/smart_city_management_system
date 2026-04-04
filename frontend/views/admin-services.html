@@ -1,0 +1,43 @@
+<!-- ── Admin: Utility Service Requests ── -->
+<div class="sc-dashboard">
+  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h1 class="sc-page-title">🔧 Service Requests</h1>
+      <p class="sc-page-sub">Utility service requests submitted by citizens</p>
+    </div>
+    <a href="#/admin" class="btn sc-btn-outline"><i class="bi bi-arrow-left me-1"></i>Admin Panel</a>
+  </div>
+
+  <div class="sc-spinner" ng-if="loading">Loading requests...</div>
+
+  <div class="sc-empty" ng-if="!loading && requests.length === 0">
+    <i class="bi bi-tools"></i><p>No service requests yet.</p>
+  </div>
+
+  <div class="sc-card" ng-if="!loading && requests.length > 0">
+    <div class="table-responsive">
+      <table class="sc-table">
+        <thead>
+          <tr><th>Citizen</th><th>Service Type</th><th>Address</th><th>Description</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="r in requests">
+            <td style="color:var(--text-muted);white-space:nowrap">{{r.userName}}</td>
+            <td><span style="color:var(--cyan);font-weight:600;font-size:0.85rem">{{r.serviceType}}</span></td>
+            <td style="font-size:0.8rem;color:var(--text-muted)">{{r.address}}</td>
+            <td style="font-size:0.8rem;color:var(--text-muted)">{{r.description | limitTo:60}}...</td>
+            <td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);white-space:nowrap">{{formatDate(r.createdAt)}}</td>
+            <td><span class="sc-badge" ng-class="statusClass(r.status)">{{r.status}}</span></td>
+            <td>
+              <div class="d-flex gap-1 flex-wrap">
+                <button class="btn-sc-sm btn-sc-info" ng-click="updateStatus(r,'Assigned')" ng-if="r.status==='Pending'">Assign</button>
+                <button class="btn-sc-sm btn-sc-resolve" ng-click="updateStatus(r,'Resolved')" ng-if="r.status!=='Resolved'">Resolve</button>
+                <button class="btn-sc-sm btn-sc-delete" ng-click="deleteService(r._id)"><i class="bi bi-trash3"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

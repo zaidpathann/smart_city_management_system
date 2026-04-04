@@ -1,0 +1,39 @@
+<!-- ── Request Utility Service ── -->
+<div class="sc-form-wrap" style="max-width:600px">
+  <div class="sc-form-card">
+    <div class="mb-4">
+      <a href="#/dashboard" style="color:var(--text-muted);font-size:0.82rem"><i class="bi bi-arrow-left me-1"></i>Back</a>
+      <h2 class="sc-form-title mt-2">Utility Service Request</h2>
+      <p class="sc-form-sub">Request repair or maintenance for water, electricity, gas and other utilities.</p>
+    </div>
+
+    <div class="sc-alert sc-alert-error"   ng-if="error">   <i class="bi bi-exclamation-triangle-fill"></i> {{error}} </div>
+    <div class="sc-alert sc-alert-success" ng-if="success"> <i class="bi bi-check-circle-fill"></i> {{success}} </div>
+
+    <form ng-submit="submitService()">
+      <div class="mb-3">
+        <label class="form-label">Service Type *</label>
+        <select class="form-select" ng-model="service.serviceType">
+          <option ng-repeat="t in serviceTypes" value="{{t}}">{{t}}</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Address / Location *</label>
+        <input type="text" class="form-control" ng-model="service.address"
+               placeholder="House No., Street, Ward, City" required />
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Problem Description *</label>
+        <textarea class="form-control" ng-model="service.description" rows="4"
+                  placeholder="Describe the issue — e.g. No water supply since 2 days in Block B" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-sc-primary" ng-disabled="loading">
+        <span ng-if="!loading"><i class="bi bi-tools me-2"></i>Submit Request</span>
+        <span ng-if="loading"><i class="bi bi-arrow-repeat me-2" style="animation:spin 0.8s linear infinite;display:inline-block"></i>Submitting...</span>
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,171 @@
+<!-- ── Citizen Dashboard ── -->
+<div class="sc-dashboard">
+
+  <!-- Header -->
+  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h1 class="sc-page-title">Good day, {{userName}} 👋</h1>
+      <p class="sc-page-sub">Here's a summary of your civic activities</p>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+      <a href="#/add-complaint" class="btn sc-btn-primary"><i class="bi bi-plus-circle me-1"></i>New Complaint</a>
+      <a href="#/add-report"    class="btn sc-btn-outline"><i class="bi bi-trash3 me-1"></i>Report Issue</a>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon-wrap stat-icon-cyan"><i class="bi bi-chat-left-text" style="color:var(--cyan)"></i></div>
+        <div>
+          <div class="stat-val">{{complaints.length}}</div>
+          <div class="stat-label">Total Complaints</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon-wrap stat-icon-yellow"><i class="bi bi-clock" style="color:var(--yellow)"></i></div>
+        <div>
+          <div class="stat-val">{{pendingCount()}}</div>
+          <div class="stat-label">Pending</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon-wrap stat-icon-green"><i class="bi bi-check-circle" style="color:var(--green)"></i></div>
+        <div>
+          <div class="stat-val">{{resolvedCount()}}</div>
+          <div class="stat-label">Resolved</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon-wrap stat-icon-red"><i class="bi bi-trash3" style="color:var(--red)"></i></div>
+        <div>
+          <div class="stat-val">{{reports.length}}</div>
+          <div class="stat-label">Reports Filed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Left Column -->
+    <div class="col-lg-8">
+
+      <!-- My Complaints -->
+      <div class="sc-card mb-4">
+        <div class="sc-card-header">
+          <h3 class="sc-card-title"><i class="bi bi-chat-left-text" style="color:var(--cyan)"></i> My Complaints</h3>
+          <a href="#/add-complaint" class="btn-sc-sm btn-sc-info">+ New</a>
+        </div>
+
+        <div class="sc-spinner" ng-if="loading">Loading complaints...</div>
+
+        <div class="sc-empty" ng-if="!loading && complaints.length === 0">
+          <i class="bi bi-inbox"></i>
+          <p>No complaints yet. <a href="#/add-complaint">File your first complaint →</a></p>
+        </div>
+
+        <div ng-if="!loading && complaints.length > 0">
+          <div ng-repeat="c in complaints | limitTo:5" class="ann-card mb-2"
+               ng-class="{'priority-High': c.status==='Pending', 'priority-Low': c.status==='Resolved', 'priority-Medium': c.status==='In Progress'}">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div style="flex:1;min-width:0">
+                <div class="ann-title">{{c.title}}</div>
+                <div class="ann-content">{{c.description | limitTo:100}}{{c.description.length > 100 ? '...' : ''}}</div>
+                <div class="ann-meta">{{c.category}} · {{formatDate(c.createdAt)}}</div>
+                <div ng-if="c.adminNote" class="ann-meta mt-1" style="color:var(--green)">
+                  <i class="bi bi-chat-dots-fill"></i> Admin: {{c.adminNote}}
+                </div>
+              </div>
+              <span class="sc-badge" ng-class="statusClass(c.status)">{{c.status}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Announcements -->
+      <div class="sc-card">
+        <div class="sc-card-header">
+          <h3 class="sc-card-title"><i class="bi bi-megaphone" style="color:var(--yellow)"></i> City Announcements</h3>
+        </div>
+
+        <div class="sc-empty" ng-if="announcements.length === 0">
+          <i class="bi bi-megaphone"></i><p>No announcements at this time.</p>
+        </div>
+
+        <div class="ann-card" ng-class="'priority-' + a.priority" ng-repeat="a in announcements">
+          <div class="d-flex align-items-start justify-content-between gap-2">
+            <div style="flex:1;min-width:0">
+              <div class="ann-title">{{a.title}}</div>
+              <div class="ann-content">{{a.content}}</div>
+              <div class="ann-meta">{{formatDate(a.createdAt)}}</div>
+            </div>
+            <span class="sc-badge" ng-class="priorityClass(a.priority)">{{a.priority}}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-lg-4">
+
+      <!-- AQI -->
+      <div class="aqi-widget mb-4">
+        <div class="sc-section-title">Air Quality Index</div>
+        <div class="aqi-number" ng-class="aqi.color">{{aqi.value}}</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.3rem">{{aqi.category}}</div>
+        <div class="aqi-meter">
+          <div class="aqi-needle" ng-style="{left: aqiPercent + '%'}"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-dim);margin-top:0.4rem">
+          <span>Good</span><span>Moderate</span><span>Poor</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="sc-card mb-4">
+        <div class="sc-card-header"><h3 class="sc-card-title"><i class="bi bi-grid" style="color:var(--cyan)"></i> Quick Actions</h3></div>
+        <div class="d-grid gap-2">
+          <a href="#/add-complaint" class="btn sc-btn-outline text-start" style="font-size:0.85rem">
+            <i class="bi bi-chat-left-text me-2"></i>File a Complaint
+          </a>
+          <a href="#/add-report" class="btn sc-btn-outline text-start" style="font-size:0.85rem">
+            <i class="bi bi-trash3 me-2"></i>Report Cleanliness Issue
+          </a>
+          <a href="#/add-service" class="btn sc-btn-outline text-start" style="font-size:0.85rem">
+            <i class="bi bi-tools me-2"></i>Request Utility Service
+          </a>
+          <a href="#/add-feedback" class="btn sc-btn-outline text-start" style="font-size:0.85rem">
+            <i class="bi bi-star me-2"></i>Submit Feedback
+          </a>
+          <a href="#/parking" class="btn sc-btn-outline text-start" style="font-size:0.85rem">
+            <i class="bi bi-p-square me-2"></i>Check Parking
+          </a>
+          <a href="#/emergency" class="btn sc-btn-outline text-start" style="font-size:0.85rem">
+            <i class="bi bi-telephone-fill me-2"></i>Emergency Contacts
+          </a>
+        </div>
+      </div>
+
+      <!-- Recent Service Requests -->
+      <div class="sc-card" ng-if="services.length > 0">
+        <div class="sc-card-header"><h3 class="sc-card-title"><i class="bi bi-tools" style="color:var(--purple)"></i> Service Requests</h3></div>
+        <div ng-repeat="s in services | limitTo:3" class="ann-card mb-2"
+             ng-class="{'priority-High': s.status==='Pending', 'priority-Low': s.status==='Resolved'}">
+          <div class="ann-title">{{s.serviceType}}</div>
+          <div class="ann-content">{{s.description | limitTo:80}}...</div>
+          <span class="sc-badge" ng-class="statusClass(s.status)">{{s.status}}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
