@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Environment secrets
+.env
+
+# Build output
+frontend-react/dist/
+
+# Logs
+*.log

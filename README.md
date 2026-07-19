@@ -1,5 +1,17 @@
 # 🏙️ SmartCity — Civic Portal
-### Full-Stack Web Application | AngularJS + Node.js + Express + MongoDB
+
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=node.js)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)](https://www.mongodb.com/atlas)
+[![Frontend](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](YOUR_VERCEL_URL)
+[![Backend](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render)](YOUR_RENDER_URL)
+
+### Full-Stack MERN Application | MongoDB + Express + React + Node.js
+
+## 🌐 Live Demo
+
+- **Frontend:** YOUR_VERCEL_URL
+- **Backend API:** YOUR_RENDER_URL
 
 A complete Smart City civic management platform with role-based access control for citizens and administrators.
 
@@ -35,43 +47,58 @@ smartcity/
 │   ├── package.json
 │   └── .env.example            # Environment variable template
 │
-└── frontend/                   # AngularJS SPA
-    ├── index.html              # Main SPA shell + navbar
-    ├── css/
-    │   └── style.css           # Full custom dark theme
-    ├── js/
-    │   ├── app.js              # AngularJS module + routes
-    │   ├── services/
-    │   │   ├── authService.js  # JWT session management
-    │   │   └── apiService.js   # All HTTP API calls
-    │   └── controllers/
-    │       ├── NavController.js
-    │       ├── AuthController.js
-    │       ├── DashboardController.js
-    │       ├── ComplaintController.js
-    │       ├── AdminController.js
-    │       ├── ParkingController.js
-    │       └── MiscController.js
-    └── views/                  # AngularJS HTML templates
-        ├── home.html
-        ├── login.html
-        ├── register.html
-        ├── dashboard.html
-        ├── add-complaint.html
-        ├── add-report.html
-        ├── add-service.html
-        ├── add-feedback.html
-        ├── parking.html
-        ├── emergency.html
-        ├── admin-dashboard.html
-        ├── admin-complaints.html
-        ├── admin-announcements.html
-        ├── admin-parking.html
-        ├── admin-feedback.html
-        ├── admin-reports.html
-        ├── admin-services.html
-        └── admin-users.html
+└── frontend-react/             # React SPA (Vite)
+    ├── index.html              # HTML shell
+    ├── vite.config.js          # Vite build config
+    ├── package.json
+    └── src/
+        ├── main.jsx            # React entry point
+        ├── App.jsx             # Router + app shell
+        ├── css/
+        │   └── style.css       # Full custom dark theme
+        ├── context/
+        │   └── AuthContext.jsx # JWT session management (React Context)
+        ├── services/
+        │   └── api.js          # All HTTP API calls (axios)
+        ├── utils/
+        │   └── helpers.js      # Shared badge/date helpers
+        ├── components/
+        │   ├── Navbar.jsx
+        │   ├── Footer.jsx
+        │   └── RouteGuards.jsx # RequireUser / RequireAdmin
+        └── pages/
+            ├── Home.jsx
+            ├── Login.jsx
+            ├── Register.jsx
+            ├── Dashboard.jsx
+            ├── AddComplaint.jsx
+            ├── AddReport.jsx
+            ├── AddService.jsx
+            ├── AddFeedback.jsx
+            ├── Parking.jsx
+            ├── Emergency.jsx
+            └── admin/
+                ├── AdminDashboard.jsx
+                ├── AdminComplaints.jsx
+                ├── AdminAnnouncements.jsx
+                ├── AdminParking.jsx
+                ├── AdminFeedback.jsx
+                ├── AdminReports.jsx
+                ├── AdminServices.jsx
+                └── AdminUsers.jsx
 ```
+
+---
+
+## 🚀 Deployment
+
+| Service | Platform | Status |
+|----------|----------|--------|
+| Frontend | Vercel | ✅ Live |
+| Backend API | Render | ✅ Live |
+| Database | MongoDB Atlas | ✅ Connected |
+
+The application is deployed with the frontend hosted on **Vercel**, the backend hosted on **Render**, and the database hosted on **MongoDB Atlas**.
 
 ---
 
@@ -161,27 +188,20 @@ You should see:
 🚀 Server running on http://localhost:5000
 ```
 
-### Step 6 — Serve the Frontend
+### Step 6 — Start the React Frontend
 
-The frontend is a static AngularJS SPA. You need a simple HTTP server (opening index.html directly via `file://` won't work due to CORS/routing).
-
-**Option A — Using VS Code Live Server** (Recommended for beginners)
-1. Install the "Live Server" extension in VS Code
-2. Right-click `frontend/index.html` → "Open with Live Server"
-3. It opens at `http://127.0.0.1:5500`
-
-**Option B — Using npx serve**
 ```bash
-cd frontend
-npx serve .
+cd frontend-react
+npm install
+npm run dev
 # Opens at http://localhost:3000
 ```
 
-**Option C — Using Python**
+For a production build:
+
 ```bash
-cd frontend
-python -m http.server 8080
-# Opens at http://localhost:8080
+npm run build      # outputs static files to frontend-react/dist
+npm run preview    # serve the production build locally
 ```
 
 ---
@@ -190,9 +210,11 @@ python -m http.server 8080
 
 | URL | Description |
 |-----|-------------|
-| `http://localhost:5500` (or your port) | Frontend SPA |
-| `http://localhost:5000` | Backend API |
-| `http://localhost:5000/api/users` | Users API endpoint |
+| YOUR_VERCEL_URL | Live React Frontend |
+| YOUR_RENDER_URL | Live Backend API |
+| YOUR_RENDER_URL/api/users | Users API |
+| http://localhost:3000 | Local Frontend |
+| http://localhost:5000 | Local Backend |
 
 ---
 
@@ -236,6 +258,12 @@ python -m http.server 8080
 | View All Users | `/admin/users` |
 
 ---
+
+### Production Base URL
+
+```
+YOUR_RENDER_URL
+```
 
 ## 📡 REST API Reference
 
@@ -295,7 +323,7 @@ reports       → user, category, location, description, imageUrl, status
 
 **CORS errors in browser?**
 - Make sure backend is running on port 5000
-- The frontend must be served via HTTP server, not opened as a file
+- Run the frontend through the Vite dev server (`npm run dev`), not as a `file://` page
 
 **Image upload not working?**
 - Add valid ImageKit credentials to `.env`
@@ -303,7 +331,7 @@ reports       → user, category, location, description, imageUrl, status
 
 **Port already in use?**
 - Change `PORT=5001` in your `.env` file
-- Update `var BASE = 'http://localhost:5001/api'` in `frontend/js/services/apiService.js`
+- Update `baseURL: 'http://localhost:5001/api'` in `frontend-react/src/services/api.js`
 
 ---
 
@@ -311,11 +339,12 @@ reports       → user, category, location, description, imageUrl, status
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend Framework | AngularJS 1.8.3 |
-| Frontend Routing | ngRoute |
+| Frontend Framework | React 18 (Vite) |
+| Frontend Routing | React Router 6 (HashRouter) |
+| HTTP Client | axios |
 | UI Library | Bootstrap 5.3 |
 | Icons | Bootstrap Icons 1.11 |
-| Fonts | Sora + JetBrains Mono (Google Fonts) |
+| Fonts | Inter + Poppins (Google Fonts) |
 | Backend | Node.js + Express 4 |
 | Database | MongoDB + Mongoose |
 | Authentication | JWT (jsonwebtoken) |
@@ -326,6 +355,49 @@ reports       → user, category, location, description, imageUrl, status
 
 ---
 
+## ✨ Highlights
+
+- JWT Authentication & Role-Based Authorization
+- Citizen & Admin Dashboards
+- Complaint & Service Management
+- Smart Parking Module
+- Cleanliness Reporting
+- Feedback System
+- Image Upload with ImageKit
+- MongoDB Atlas Cloud Database
+- Fully Responsive UI
+- Production Deployment (Vercel + Render)
+
 ## 📝 License
 
 Built for educational purposes. Free to use and modify.
+---
+
+# 🌍 Deployment Architecture
+
+```text
+                  User
+                    │
+                    ▼
+          Frontend (Vercel)
+                    │
+                    ▼
+          Backend API (Render)
+                    │
+                    ▼
+            MongoDB Atlas
+                    │
+                    ▼
+              ImageKit Cloud
+```
+
+## Deployment Platforms
+
+- Frontend → Vercel
+- Backend → Render
+- Database → MongoDB Atlas
+- Image Storage → ImageKit
+
+The React frontend communicates with the Express backend deployed on Render. The backend stores application data in MongoDB Atlas and uploads complaint/report images to ImageKit.
+
+
