@@ -3,15 +3,15 @@
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=node.js)](https://expressjs.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)](https://www.mongodb.com/atlas)
-[![Frontend](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](YOUR_VERCEL_URL)
-[![Backend](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render)](YOUR_RENDER_URL)
+[![Frontend](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](https://smart-city-management-system-gules.vercel.app)
+[![Backend](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render)](https://smart-city-management-system-twd6.onrender.com)
 
 ### Full-Stack MERN Application | MongoDB + Express + React + Node.js
 
 ## 🌐 Live Demo
 
-- **Frontend:** YOUR_VERCEL_URL
-- **Backend API:** YOUR_RENDER_URL
+- **Frontend:** https://smart-city-management-system-gules.vercel.app
+- **Backend API:** https://smart-city-management-system-twd6.onrender.com
 
 A complete Smart City civic management platform with role-based access control for citizens and administrators.
 
@@ -206,15 +206,13 @@ npm run preview    # serve the production build locally
 
 ---
 
-## 🌐 Accessing the Application
-
 | URL | Description |
 |-----|-------------|
-| YOUR_VERCEL_URL | Live React Frontend |
-| YOUR_RENDER_URL | Live Backend API |
-| YOUR_RENDER_URL/api/users | Users API |
-| http://localhost:3000 | Local Frontend |
-| http://localhost:5000 | Local Backend |
+| https://smart-city-management-system-gules.vercel.app | Live React Frontend |
+| https://smart-city-management-system-twd6.onrender.com | Live Backend API |
+| https://smart-city-management-system-twd6.onrender.com/api/users | Users API |
+| http://localhost:3000 | Local React Frontend |
+| http://localhost:5000 | Local Backend API |
 
 ---
 
@@ -259,45 +257,59 @@ npm run preview    # serve the production build locally
 
 ---
 
-### Production Base URL
-
-```
-YOUR_RENDER_URL
-```
-
 ## 📡 REST API Reference
 
-### Users
+### 🌐 Production Base URL
+
+| Service | URL |
+|---------|-----|
+| Backend API | https://smart-city-management-system-twd6.onrender.com |
+
+All API endpoints are accessible using the following base URL:
+
+```text
+https://smart-city-management-system-twd6.onrender.com/api
+```
+
+---
+
+### 👤 Users
+
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
-| POST | `/api/users/register` | None | Register new user |
-| POST | `/api/users/login` | None | Login |
-| GET | `/api/users/profile` | User | Get own profile |
-| GET | `/api/users/all` | Admin | Get all users |
-| DELETE | `/api/users/:id` | Admin | Delete user |
+| POST | `/users/register` | None | Register new user |
+| POST | `/users/login` | None | Login |
+| GET | `/users/profile` | User | Get own profile |
+| GET | `/users/all` | Admin | Get all users |
+| DELETE | `/users/:id` | Admin | Delete user |
 
-### Complaints
+### 📝 Complaints
+
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
-| POST | `/api/complaints` | User | Submit complaint |
-| GET | `/api/complaints/my` | User | Own complaints |
-| GET | `/api/complaints` | Admin | All complaints |
-| GET | `/api/complaints/stats` | Admin | Analytics |
-| PUT | `/api/complaints/:id` | Admin | Update status |
-| DELETE | `/api/complaints/:id` | Admin | Delete |
+| POST | `/complaints` | User | Submit complaint |
+| GET | `/complaints/my` | User | View own complaints |
+| GET | `/complaints` | Admin | View all complaints |
+| GET | `/complaints/stats` | Admin | Complaint analytics |
+| PUT | `/complaints/:id` | Admin | Update complaint status |
+| DELETE | `/complaints/:id` | Admin | Delete complaint |
 
-### Announcements
+### 📢 Announcements
+
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
-| GET | `/api/announcements` | User | All announcements |
-| POST | `/api/announcements` | Admin | Post announcement |
-| DELETE | `/api/announcements/:id` | Admin | Delete |
+| GET | `/announcements` | User | View announcements |
+| POST | `/announcements` | Admin | Create announcement |
+| DELETE | `/announcements/:id` | Admin | Delete announcement |
 
-### Other endpoints follow the same pattern for:
-- `/api/feedback` — Feedback CRUD
-- `/api/parking` — Parking management
-- `/api/services` — Utility service requests
-- `/api/reports` — Cleanliness reports
+### 📂 Additional Endpoints
+
+The following modules follow the same REST API pattern:
+
+- `/feedback` — Feedback Management
+- `/parking` — Smart Parking Management
+- `/services` — Utility Service Requests
+- `/reports` — Cleanliness Reports
 
 ---
 
@@ -400,4 +412,8 @@ Built for educational purposes. Free to use and modify.
 
 The React frontend communicates with the Express backend deployed on Render. The backend stores application data in MongoDB Atlas and uploads complaint/report images to ImageKit.
 
+## 🔗 Live Links
 
+- 🌐 **Frontend:** https://smart-city-management-system-gules.vercel.app
+- ⚙️ **Backend API:** https://smart-city-management-system-twd6.onrender.com
+- 📂 **Source Code:** https://github.com/zaidpathann/smart_city_management_system
