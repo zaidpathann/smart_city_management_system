@@ -4,8 +4,18 @@
  */
 import axios from 'axios';
 
+// Base URL comes from Vite env (VITE_API_URL); falls back to the deployed
+// backend so a missing env var can never point the app at localhost.
+const DEFAULT_API_URL = 'https://smart-city-management-system-twd6.onrender.com/api';
+
+function resolveBaseURL() {
+  const raw = import.meta.env.VITE_API_URL || DEFAULT_API_URL;
+  const trimmed = raw.replace(/\/+$/, '');
+  return trimmed.endsWith('/api') ? trimmed : trimmed + '/api';
+}
+
 const http = axios.create({
-  baseURL: 'http://localhost:5000/api'
+  baseURL: resolveBaseURL()
 });
 
 // Attach JWT to every request
